@@ -1,0 +1,10 @@
+node_modules/
+server.log
+server.err
+.env
+npm-debug.log*
+dist/
+coverage/
+*.local
+Thumbs.db
+*.DS_Store

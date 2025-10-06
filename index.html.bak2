@@ -1,0 +1,734 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>Ábaco Digital - Domporquito S/A</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Arial, sans-serif;
+      background: linear-gradient(135deg, #2c3e50, #3a6073);
+      color: #fff;
+      text-align: center;
+      min-height: 100vh;
+      margin: 0;
+      line-height: 1.6;
+      -webkit-tap-highlight-color: transparent;
+      overflow-x: hidden;
+    }              if (yPos + 150 > pageHeight) { // 150 é a altura do gráfico
+                doc.addPage();
+                yPos = 40;
+              }
+              
+              doc.setFont("Helvetica", "bold");
+              doc.text("Distribuição por Grupo:", 20, yPos);
+              yPos += 10;
+              
+              const chartCanvas = document.getElementById('graficoResumo');
+              if (chartCanvas) {
+                const imgData = chartCanvas.toDataURL('image/png');
+                doc.addImage(imgData, 'PNG', 20, yPos, 170, 150);
+              } {
+      padding: 22px;
+      border-radius: 14px;
+      font-weight: 800;
+      transition: transform 0.14s;
+      box-shadow: 0 6px 14px rgba(0,0,0,0.14);
+      min-height: 220px;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+      align-items: stretch;
+      touch-action: manipulation;
+    }
+    @media (max-width: 768px) {
+      .item {
+        padding: 16px;
+        min-height: 180px;
+      }
+    }
+    /* Pill style rows inside card */
+    .pill {
+      background: #9B9B9B;
+      color: #fff;
+      border-radius: 8px;
+      padding: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin: 6px 0;
+      min-height: 40px;
+    }
+    .pill .left { display:flex; align-items:center; gap:8px; }
+    .pill .label { 
+      flex:1; 
+      text-align:center; 
+      font-weight:bold; 
+      color:#fff; 
+      font-size:16px; 
+      text-transform: uppercase;
+      margin: 0;
+    }
+    .controls { display:flex; align-items:center; gap:8px; min-width:90px; justify-content:flex-end }
+    .circle-minus { width:44px;height:44px;border-radius:50%;background:#e74c3c;color:#fff;display:flex;align-items:center;justify-content:center;font-weight:800;box-shadow:0 2px 4px rgba(0,0,0,0.12); cursor:pointer; font-size: 24px; -webkit-tap-highlight-color: transparent; touch-action: manipulation; }
+    .circle-plus { width:44px;height:44px;border-radius:50%;background:#27ae60;color:#fff;display:flex;align-items:center;justify-content:center;font-weight:800;box-shadow:0 2px 4px rgba(0,0,0,0.12); cursor:pointer; font-size: 24px; -webkit-tap-highlight-color: transparent; touch-action: manipulation; }
+    .count-badge { min-width:32px; display:inline-block; text-align:center; font-weight:800; color:#111; background:#fff; padding:6px 12px; border-radius:12px; font-size: 16px }
+    .header-container { background:#fefefe; padding:8px 16px; display:flex; align-items:center; justify-content:space-between; box-shadow:0 2px 4px rgba(0,0,0,0.12); }
+    .count-container { display:flex; align-items:center; gap:32px; margin:16px; }
+    .count-box { min-width:120px; padding:8px 16px; background:#fff; border-radius:8px; box-shadow:0 2px 4px rgba(0,0,0,0.12); }
+    /* Title and header spacing */
+    h1 { margin: 10px 0 6px 0; font-size: 34px; }
+    #resultado {
+      margin: 30px 16px 0;
+      font-size: 1.2em;
+      text-align: left;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 24px;
+      flex-wrap: wrap;
+    }
+    #resumo-texto {
+      flex: 1;
+      min-width: 300px;
+    }
+    #resumo-grafico {
+      width: 300px;
+      flex-shrink: 0;
+      background: white;
+      padding: 16px;
+      border-radius: 12px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+      position: sticky;
+      top: 20px;
+    }
+    #finalizar {
+      margin-top: 20px;
+      padding: 16px 24px;
+      font-size: 18px;
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      border-radius: 12px;
+      cursor: pointer;
+      -webkit-tap-highlight-color: transparent;
+      touch-action: manipulation;
+    }
+    #resumo-final {
+      margin: 20px 16px;
+      background-color: #fff;
+      color: #000;
+      padding: 20px;
+      border-radius: 12px;
+      text-align: left;
+      font-size: 16px;
+    }
+    .chart-container {
+      width: 100%;
+      max-width: 400px;
+      margin: 20px auto;
+      background: white;
+      padding: 16px;
+      border-radius: 12px;
+    }
+    .resumo-totais {
+      background: #f5f6fa;
+      padding: 16px;
+      border-radius: 8px;
+      margin-top: 16px;
+    }
+    .percentual {
+      color: #666;
+      font-size: 14px;
+      margin-left: 8px;
+    }
+    #signature-pad-container {
+      margin: 20px 16px;
+      background-color: #fff;
+      padding: 24px;
+      border-radius: 12px;
+      text-align: center;
+      display: none;
+    }
+    #signature-pad {
+      border: 2px solid #ccc;
+      border-radius: 8px;
+      background-color: #fff;
+      cursor: crosshair;
+      width: 100%;
+      max-width: 600px;
+      height: 250px;
+      touch-action: none;
+    }
+    .signature-buttons {
+      margin-top: 16px;
+      display: flex;
+      gap: 12px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+    .signature-buttons button {
+      flex: 1;
+      min-width: 140px;
+      max-width: 200px;
+      margin: 0;
+      padding: 16px 24px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 16px;
+      font-weight: 600;
+      -webkit-tap-highlight-color: transparent;
+      touch-action: manipulation;
+    }
+    .btn-limpar {
+      background-color: #f44336;
+      color: white;
+    }
+    .btn-confirmar {
+      background-color: #4CAF50;
+      color: white;
+    }
+  </style>
+</head>
+<body>
+  <div style="display:flex; flex-direction:column; align-items:center; justify-content:center; max-width:1100px; margin: 18px auto 0; padding: 0 16px;">
+    <div style="text-align:center; width:100%;">
+      <img src="img/dpa.png" alt="Logo DPA" class="logo" style="max-width: 180px; height: auto;" />
+      <h1 style="font-size: clamp(24px, 5vw, 34px); margin: 12px 0;">QUALIDADE DPA</h1>
+    </div>
+    <div style="width:100%; text-align:center; margin-top: 12px;">
+      <button id="finalizar" style="margin-top:12px; padding:16px 36px; font-size:18px; background:#4CAF50; color:#fff; border:none; border-radius:12px; cursor:pointer; width: 100%; max-width: 320px;">Finalizar Contagem</button>
+    </div>
+  </div>
+
+  <div id="top-cards" style="display:grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap:18px; max-width:1100px; margin:12px auto 0; padding: 0 16px;">
+    <div class="item" style="background:#f1c40f;color:#111;min-height:80px;padding:16px;">
+      <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;">
+        <div class="circle-minus" onclick="if(contagem['CARCAÇA NÃO CONFORME']>0){contagem['CARCAÇA NÃO CONFORME']--;document.getElementById('count-carcaca').textContent=contagem['CARCAÇA NÃO CONFORME'];atualizarResumo();}">-</div>
+        <div style="flex:1;text-align:center;font-size:20px;font-weight:900;letter-spacing:0.6px;">CARCAÇA NÃO CONFORME</div>
+        <div style="display:flex;align-items:center;gap:8px;">
+          <div id="count-carcaca" class="count-badge">0</div>
+          <div class="circle-plus" onclick="contagem['CARCAÇA NÃO CONFORME']++;document.getElementById('count-carcaca').textContent=contagem['CARCAÇA NÃO CONFORME'];atualizarResumo();">+</div>
+        </div>
+      </div>
+    </div>
+    
+    <div class="item" style="background:#2f3a47;color:#fff;min-height:80px;padding:16px;">
+      <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;">
+        <div class="circle-minus" onclick="if(contagem['PÉ NÃO CONFORME']>0){contagem['PÉ NÃO CONFORME']--;document.getElementById('count-pe').textContent=contagem['PÉ NÃO CONFORME'];atualizarResumo();}">-</div>
+        <div style="flex:1;text-align:center;font-size:20px;font-weight:900;letter-spacing:0.6px;">PÉ NÃO CONFORME</div>
+        <div style="display:flex;align-items:center;gap:8px;">
+          <div id="count-pe" class="count-badge">0</div>
+          <div class="circle-plus" onclick="contagem['PÉ NÃO CONFORME']++;document.getElementById('count-pe').textContent=contagem['PÉ NÃO CONFORME'];atualizarResumo();">+</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="main-cards" style="display:grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap:18px; max-width:1100px; margin:12px auto; padding: 0 16px;"></div>
+
+  <div class="container">
+    <div id="cards" style="display:grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap:18px; align-items:start; margin: 0 16px;"></div>
+    <div id="resultado">Resumo:</div>
+    <div id="resumo-final"></div>
+    <div id="signature-pad-container">
+      <h3>Assinatura Digital</h3>
+      <canvas id="signature-pad"></canvas>
+      <div class="signature-buttons">
+        <button class="btn-limpar">Limpar Assinatura</button>
+        <button class="btn-confirmar">Confirmar Assinatura</button>
+      </div>
+    </div>
+    <h2>Histórico de Relatórios</h2>
+    <div id="historico"></div>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/signature_pad@4.1.5/dist/signature_pad.umd.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      window.contagem = {
+        'CARCAÇA NÃO CONFORME': 0,
+        'PÉ NÃO CONFORME': 0
+      };
+
+      // Novo conjunto de grupos e labels conforme a imagem fornecida
+      const grupos = {
+        "PERNIL": ["DANIFICADO","FRATURA","RESÍDUOS","PELOS"],
+        "PALETA": ["DANIFICADO","FRATURA","RESÍDUOS","PELOS"],
+        "CARRÉ": ["DANIFICADO","FRATURA","RESÍDUOS","PELOS"],
+        "BARRIGA": ["DANIFICADO","FRATURA","RESÍDUOS","PELOS"]
+      };
+      
+      // Cores dos grupos
+      const cores = {
+        'PERNIL': '#4a90e2',
+        'PALETA': '#f5a623',
+        'CARRÉ': '#50b83c',
+        'BARRIGA': '#f8e71c'
+      };
+
+      const mainCardsDiv = document.getElementById('main-cards');
+      const resultado = document.getElementById('resultado');
+      const resumoFinal = document.getElementById('resumo-final');
+
+      // Gerar os cards principais
+      Object.entries(grupos).forEach(([grupo, items]) => {
+        contagem[grupo] = {};
+        
+        const card = document.createElement('div');
+        card.className = 'item';
+        card.style.background = cores[grupo];
+        card.style.padding = '20px';
+        card.style.color = grupo === 'BARRIGA' ? '#111' : '#fff';
+        
+        const title = document.createElement('div');
+        title.style.fontSize = '24px';
+        title.style.fontWeight = 'bold';
+        title.style.marginBottom = '16px';
+        title.textContent = grupo;
+        card.appendChild(title);
+        
+        items.forEach(item => {
+          contagem[grupo][item] = 0;
+          
+          const row = document.createElement('div');
+          row.className = 'pill';
+          
+          const left = document.createElement('div');
+          left.className = 'left';
+          
+          const minus = document.createElement('div');
+          minus.className = 'circle-minus';
+          minus.textContent = '-';
+          minus.onclick = () => {
+            if (contagem[grupo][item] > 0) {
+              contagem[grupo][item]--;
+              countSpan.textContent = contagem[grupo][item];
+              atualizarResumo();
+            }
+          };
+          
+          const label = document.createElement('div');
+          label.className = 'label';
+          label.textContent = item;
+          
+          const countSpan = document.createElement('div');
+          countSpan.className = 'count-badge';
+          countSpan.textContent = '0';
+          
+          const plus = document.createElement('div');
+          plus.className = 'circle-plus';
+          plus.textContent = '+';
+          plus.onclick = () => {
+            contagem[grupo][item]++;
+            countSpan.textContent = contagem[grupo][item];
+            atualizarResumo();
+          };
+          
+          left.appendChild(minus);
+          left.appendChild(label);
+          
+          const controls = document.createElement('div');
+          controls.className = 'controls';
+          controls.appendChild(countSpan);
+          controls.appendChild(plus);
+          
+          row.appendChild(left);
+          row.appendChild(controls);
+          card.appendChild(row);
+        });
+        
+        mainCardsDiv.appendChild(card);
+      });
+
+      function atualizarResumo() {
+        // Limpa o resultado anterior
+        if (!document.getElementById('resumo-texto')) {
+          resultado.innerHTML = `
+            <div id="resumo-texto"></div>
+            <div id="resumo-grafico">
+              <canvas id="graficoResumo"></canvas>
+            </div>
+          `;
+        }
+        
+        let texto = `<strong>Resumo:</strong><br>`;
+        let totalGeral = 0;
+        const totaisPorGrupo = {};
+        const dadosGrafico = {
+          labels: [],
+          valores: []
+        };
+
+        // Calcula totais
+        for (const [grupo, dados] of Object.entries(contagem)) {
+          totaisPorGrupo[grupo] = 0;
+          for (const [label, val] of Object.entries(dados)) {
+            if (val > 0) {
+              totaisPorGrupo[grupo] += val;
+              totalGeral += val;
+            }
+          }
+        }
+
+        const resumoTexto = document.getElementById('resumo-texto');
+        
+        // Gera texto do resumo com percentuais
+        texto = '<strong>Resumo:</strong><br>';
+        for (const [grupo, dados] of Object.entries(contagem)) {
+          if (totaisPorGrupo[grupo] > 0) {
+            const grupoPercentual = ((totaisPorGrupo[grupo] / totalGeral) * 100).toFixed(1);
+            texto += `<br><strong>${grupo}</strong> (Total: ${totaisPorGrupo[grupo]} - ${grupoPercentual}% do total)<br>`;
+            for (const [label, val] of Object.entries(dados)) {
+              if (val > 0) {
+                texto += `${label}: ${val}<br>`;
+              }
+            }
+            // Adiciona dados para o gráfico
+            dadosGrafico.labels.push(grupo);
+            dadosGrafico.valores.push(totaisPorGrupo[grupo]);
+          }
+        }
+
+        // Adiciona total geral
+        if (totalGeral > 0) {
+          texto += `<div class="resumo-totais">
+            <strong>Total Geral:</strong> ${totalGeral} itens
+          </div>`;
+        }
+
+        resumoTexto.innerHTML = texto || "Nenhum item selecionado";
+
+        // Atualiza o gráfico
+        if (totalGeral > 0) {
+          const canvas = document.getElementById('graficoResumo');
+          if (canvas) {
+            const ctx = canvas.getContext('2d');
+            if (window.graficoResumo) {
+              window.graficoResumo.destroy();
+            }
+            window.graficoResumo = new Chart(ctx, {
+            type: 'pie',
+            data: {
+              labels: dadosGrafico.labels,
+              datasets: [{
+                data: dadosGrafico.valores,
+                backgroundColor: Object.values(cores), // Usa as cores definidas anteriormente
+                borderColor: '#fff',
+                borderWidth: 2
+              }]
+            },
+            options: {
+              responsive: true,
+              maintainAspectRatio: true,
+              plugins: {
+                legend: {
+                  position: 'right',
+                  align: 'center',
+                  labels: {
+                    usePointStyle: true,
+                    padding: 20,
+                    font: {
+                      size: 14,
+                      weight: 'bold'
+                    },
+                    generateLabels: function(chart) {
+                      const data = chart.data;
+                      if (data.labels.length && data.datasets.length) {
+                        const total = data.datasets[0].data.reduce((a, b) => a + b, 0);
+                        return data.labels.map((label, i) => {
+                          const value = data.datasets[0].data[i];
+                          const percentage = ((value / total) * 100).toFixed(1);
+                          return {
+                            text: `${label} (${percentage}%)`,
+                            fillStyle: data.datasets[0].backgroundColor[i],
+                            strokeStyle: data.datasets[0].borderColor,
+                            lineWidth: data.datasets[0].borderWidth,
+                            pointStyle: 'circle',
+                            index: i
+                          };
+                        });
+                      }
+                      return [];
+                    }
+                  }
+                },
+                title: {
+                  display: true,
+                  text: 'Distribuição por Grupo',
+                  font: {
+                    size: 18,
+                    weight: 'bold'
+                  },
+                  padding: 20
+                },
+                tooltip: {
+                  callbacks: {
+                    label: function(context) {
+                      const value = context.raw;
+                      const total = context.dataset.data.reduce((a, b) => a + b, 0);
+                      const percentage = ((value / total) * 100).toFixed(1);
+                      return `${context.label}: ${value} (${percentage}%)`;
+                    }
+                  }
+                }
+              },
+              animation: {
+                animateScale: true,
+                animateRotate: true
+              }
+            }
+          });
+        }
+      }
+
+      // Inicializar o pad de assinatura
+      const canvas = document.getElementById('signature-pad');
+      const signaturePad = new SignaturePad(canvas, {
+        backgroundColor: 'rgb(255, 255, 255)',
+        penColor: 'rgb(0, 0, 0)',
+        velocityFilterWeight: 0.7,
+        minWidth: 0.5,
+        maxWidth: 2.5,
+        throttle: 16,
+        minDistance: 0.5
+      });
+
+      // Ajustar o tamanho do canvas
+      function resizeCanvas() {
+        const containerWidth = canvas.parentElement.clientWidth;
+        const maxWidth = 500;
+        const width = Math.min(containerWidth - 40, maxWidth);
+        const height = width * 0.5;
+        
+        const ratio = Math.max(window.devicePixelRatio || 1, 1);
+        canvas.width = width * ratio;
+        canvas.height = height * ratio;
+        canvas.style.width = width + "px";
+        canvas.style.height = height + "px";
+        
+        const context = canvas.getContext("2d");
+        context.scale(ratio, ratio);
+        signaturePad.clear();
+      }
+      
+      window.addEventListener("resize", resizeCanvas);
+      resizeCanvas();
+
+      // Botões de limpar e confirmar assinatura
+      document.querySelector('.btn-limpar').addEventListener('click', () => {
+        signaturePad.clear();
+      });
+
+      document.getElementById('finalizar').addEventListener('click', () => {
+        const agora = new Date();
+        const dataHora = agora.toLocaleString('pt-BR');
+        
+        // Mostrar o pad de assinatura
+        document.getElementById('signature-pad-container').style.display = 'block';
+        resizeCanvas();
+        
+        // Aguardar a confirmação da assinatura
+        document.querySelector('.btn-confirmar').addEventListener('click', () => {
+          document.getElementById('signature-pad-container').style.display = 'none';
+
+          // Gerar PDF com melhor formatação
+          const { jsPDF } = window.jspdf;
+          const doc = new jsPDF();
+          
+          // Carregar e adicionar a logo
+          const img = new Image();
+          img.src = 'img/dpa.png';
+          img.onload = function() {
+            // Configurações iniciais do PDF
+            const pageWidth = doc.internal.pageSize.width;
+            const pageHeight = doc.internal.pageSize.height;
+            
+            // Adicionar logo
+            const logoWidth = 40;
+            const logoHeight = (img.height * logoWidth) / img.width;
+            doc.addImage(img, 'PNG', (pageWidth - logoWidth) / 2, 10, logoWidth, logoHeight);
+            
+            // Título
+            doc.setFont("Helvetica", "bold");
+            doc.setFontSize(16);
+            doc.text("Ábaco Domporquito S/A", pageWidth / 2, logoHeight + 20, { align: "center" });
+            
+            // Data e Hora
+            doc.setFont("Helvetica", "normal");
+            doc.setFontSize(12);
+            doc.text(`Data e Hora: ${dataHora}`, 20, logoHeight + 35);
+            
+            // Linha separadora
+            doc.setDrawColor(200, 200, 200);
+            doc.line(20, logoHeight + 40, pageWidth - 20, logoHeight + 40);
+            
+            // Cálculo de totais
+            let totalGeral = 0;
+            const totaisPorGrupo = {};
+            
+            for (const [grupo, dados] of Object.entries(contagem)) {
+              totaisPorGrupo[grupo] = 0;
+              for (const [_, val] of Object.entries(dados)) {
+                totaisPorGrupo[grupo] += val;
+                totalGeral += val;
+              }
+            }
+            
+            // Contagem com totais e percentuais
+            let yPos = logoHeight + 50;
+            doc.setFont("Helvetica", "bold");
+            doc.text("Contagem:", 20, yPos);
+          
+            for (const [grupo, dados] of Object.entries(contagem)) {
+              if (totaisPorGrupo[grupo] > 0) {
+                yPos += 10;
+                if (yPos > pageHeight - 40) {
+                  doc.addPage();
+                  yPos = 20;
+                }
+                
+                const grupoPercentual = ((totaisPorGrupo[grupo] / totalGeral) * 100).toFixed(1);
+                doc.setFont("Helvetica", "bold");
+                doc.text(`${grupo}`, 20, yPos);
+                doc.setFont("Helvetica", "normal");
+                doc.text(`(Total: ${totaisPorGrupo[grupo]} - ${grupoPercentual}% do total)`, 20, yPos + 7);
+                yPos += 14;
+                
+                for (const [label, valor] of Object.entries(dados)) {
+                  if (valor > 0) {
+                    if (yPos > pageHeight - 40) {
+                      doc.addPage();
+                      yPos = 20;
+                    }
+                    doc.text(`${label}: ${valor}`, 30, yPos);
+                    yPos += 7;
+                  }
+                }
+              }
+            }
+            
+            // Total Geral
+            yPos += 15;
+            if (yPos > pageHeight - 40) {
+              doc.addPage();
+              yPos = 20;
+            }
+            doc.setFont("Helvetica", "bold");
+            doc.text(`Total Geral: ${totalGeral} itens`, 20, yPos);
+            
+            // Adiciona o gráfico
+            const canvas = document.getElementById('graficoResumo');
+            if (canvas) {
+              yPos += 20;
+              if (yPos + 150 > pageHeight) {
+                doc.addPage();
+                yPos = 40;
+              }
+              
+              doc.setFont("Helvetica", "bold");
+              doc.text("Distribuição por Grupo:", 20, yPos);
+              yPos += 10;
+              
+              const imgData = canvas.toDataURL('image/png');
+              doc.addImage(imgData, 'PNG', 20, yPos, 170, 150);
+            }
+            
+            // Adicionar a assinatura digital
+            if (!signaturePad.isEmpty()) {
+              yPos += 160;
+              if (yPos + 50 > pageHeight) {
+                doc.addPage();
+                yPos = 40;
+              }
+              const signatureData = signaturePad.toDataURL();
+              doc.addImage(signatureData, 'PNG', 20, yPos, 70, 35);
+              yPos += 40;
+              doc.line(20, yPos, pageWidth - 20, yPos);
+              yPos += 10;
+              doc.text("Assinatura Digital", 20, yPos);
+            }
+            
+            // Rodapé
+            doc.setFontSize(10);
+            doc.text("Ábaco Domporquito S/A", pageWidth / 2, pageHeight - 10, { align: "center" });
+            
+            // Salvar o PDF
+            doc.save("contagem-abaco.pdf");
+
+            // Salvar no servidor
+            const reportPayload = {
+              title: `Contagem ${dataHora}`,
+              datetime: new Date().toISOString(),
+              counts: contagem
+            };
+
+            fetch('/api/reports', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify(reportPayload)
+            }).then(r => r.json()).then(saved => {
+              carregarHistorico();
+            }).catch(err => {
+              console.error('Erro salvando relatório:', err);
+            });
+          };
+        });
+      });
+
+      function carregarHistorico() {
+        fetch('/api/reports')
+          .then(r => r.json())
+          .then(reports => {
+            const historicoDiv = document.getElementById('historico');
+            historicoDiv.innerHTML = '';
+            reports.reverse().forEach(report => {
+              const div = document.createElement('div');
+              div.className = 'item';
+              div.style.backgroundColor = cores[report.grupo] || '#95a5a6';
+              div.style.color = report.grupo === 'BARRIGA' ? '#000' : '#fff';
+              let titleHtml = `<strong>${report.title}</strong><br>${new Date(report.datetime).toLocaleString('pt-BR')}`;
+              
+              // build short counts summary
+              let summary = '<div style="margin-top:8px; font-weight:700;">';
+              for (const [grupo, dados] of Object.entries(report.counts)) {
+                const parts = [];
+                for (const [label, v] of Object.entries(dados)) {
+                  if (v > 0) {
+                    parts.push(`${label}: ${v}`);
+                  }
+                }
+                if (parts.length > 0) {
+                  summary += `<div style="margin-top:6px;">${grupo} • ${parts.join(' • ')}</div>`;
+                }
+              }
+              summary += '</div>';
+              div.innerHTML = titleHtml + summary;
+              div.addEventListener('click', () => {
+                let detalhes = `Relatório: ${report.title}\nData: ${new Date(report.datetime).toLocaleString('pt-BR')}\n\n`;
+                for (const [grupo, dados] of Object.entries(report.counts)) {
+                  for (const [label, v] of Object.entries(dados)) {
+                    if (v > 0) {
+                      detalhes += `${grupo} - ${label}: ${v}\n`;
+                    }
+                  }
+                }
+                alert(detalhes);
+              });
+              historicoDiv.appendChild(div);
+            });
+          })
+          .catch(err => {
+            console.error('Erro carregando histórico:', err);
+          });
+      }
+
+      // Carregar histórico ao iniciar
+      carregarHistorico();
+    });
+  </script>
+</body>
+</html>

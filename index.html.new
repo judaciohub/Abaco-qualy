@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>Ábaco Digital - Domporquito S/A</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Arial, sans-serif;
+      background: #fff;
+      color: #212b36;
+      text-align: center;
+      min-height: 100vh;
+      margin: 0;
+      line-height: 1.6;
+      -webkit-tap-highlight-color: transparent;
+      overflow-x: hidden;
+    }
+    
+    .header-container { 
+      background:#fff; 
+      padding:8px 16px; 
+      display:flex; 
+      align-items:center; 
+      justify-content:space-between; 
+      border-bottom: 1px solid #ddd;
+    }
+    
+    .count-container { 
+      display:flex; 
+      align-items:center; 
+      gap:24px; 
+      margin:16px; 
+    }
+    
+    .count-box { 
+      min-width:120px; 
+      padding:12px 16px; 
+      background:#f4f6f8; 
+      border-radius:4px;
+    }
+
+    .item {
+      padding: 20px;
+      border-radius: 12px;
+      background: #fff;
+      color: #212b36;
+      font-weight: 800;
+      transition: transform 0.14s;
+      min-height: 80px;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+      align-items: stretch;
+      touch-action: manipulation;
+    }
+    @media (max-width: 768px) {
+      .item {
+        padding: 16px;
+        min-height: 80px;
+      }
+    }
+    
+    /* Pill style rows inside card */
+    .pill {
+      background: #f4f6f8;
+      color: #212b36;
+      border-radius: 4px;
+      padding: 8px 12px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin: 6px 0;
+      min-height: 40px;
+    }
+    
+    .pill .left { 
+      display: flex; 
+      align-items: center; 
+      gap: 12px; 
+    }
+    
+    .pill .label { 
+      flex: 1; 
+      text-align: center; 
+      font-weight: bold; 
+      font-size: 16px; 
+      text-transform: uppercase;
+      margin: 0;
+    }
+    
+    .controls { 
+      display: flex; 
+      align-items: center; 
+      gap: 12px; 
+      min-width: 90px; 
+      justify-content: flex-end 
+    }
+    
+    .circle-minus { 
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: #f8e71c;
+      color: #000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+      cursor: pointer; 
+      font-size: 20px; 
+      -webkit-tap-highlight-color: transparent;
+      touch-action: manipulation;
+    }
+    
+    .circle-plus { 
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: #50b83c;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+      cursor: pointer; 
+      font-size: 20px; 
+      -webkit-tap-highlight-color: transparent;
+      touch-action: manipulation;
+    }
+    
+    .count-badge { 
+      min-width: 32px;
+      height: 32px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      font-weight: bold;
+      color: #212b36;
+      background: #fff;
+      padding: 4px 12px;
+      border-radius: 16px;
+      font-size: 16px;
+      border: 1px solid #ddd;
+    }
+    
+    /* Title and header spacing */
+    h1 { 
+      margin: 10px 0 6px 0; 
+      font-size: 34px;
+      color: #212b36;
+    }
+    
+    #resultado {
+      margin: 30px 16px 0;
+      font-size: 1.2em;
+      text-align: left;
+      color: #212b36;
+    }
+    
+    #finalizar {
+      margin-top: 20px;
+      padding: 16px 24px;
+      font-size: 18px;
+      background-color: #50b83c;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      -webkit-tap-highlight-color: transparent;
+      touch-action: manipulation;
+      font-weight: bold;
+    }
+    
+    #resumo-final {
+      margin: 20px 16px;
+      background-color: #f4f6f8;
+      color: #212b36;
+      padding: 20px;
+      border-radius: 8px;
+      text-align: left;
+      font-size: 16px;
+    }
+    
+    .chart-container {
+      width: 100%;
+      max-width: 400px;
+      margin: 20px auto;
+      background: #f4f6f8;
+      padding: 16px;
+      border-radius: 8px;
+    }
+    
+    .resumo-totais {
+      background: #f4f6f8;
+      padding: 16px;
+      border-radius: 8px;
+      margin-top: 16px;
+      color: #212b36;
+    }
+    
+    .percentual {
+      color: #637381;
+      font-size: 14px;
+      margin-left: 8px;
+    }
+    
+    #signature-pad-container {
+      margin: 20px 16px;
+      background-color: #f4f6f8;
+      padding: 24px;
+      border-radius: 8px;
+      text-align: center;
+      display: none;
+    }
+    
+    #signature-pad {
+      border: 2px solid #ddd;
+      border-radius: 8px;
+      background-color: #fff;
+      cursor: crosshair;
+      width: 100%;
+      max-width: 600px;
+      height: 250px;
+      touch-action: none;
+    }
+    
+    .signature-buttons {
+      margin-top: 16px;
+      display: flex;
+      gap: 12px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+    
+    .signature-buttons button {
+      flex: 1;
+      min-width: 140px;
+      max-width: 200px;
+      margin: 0;
+      padding: 16px 24px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 16px;
+      font-weight: bold;
+      -webkit-tap-highlight-color: transparent;
+      touch-action: manipulation;
+    }
+    
+    .btn-limpar {
+      background-color: #f44336;
+      color: white;
+    }
+    
+    .btn-confirmar {
+      background-color: #50b83c;
+      color: white;
+    }
+  </style>
+</head>
+<body>
+  <!-- Rest of the file remains unchanged... -->
+</body>
+</html>

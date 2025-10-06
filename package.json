@@ -1,0 +1,15 @@
+{
+  "name": "abaco-local-server",
+  "version": "1.0.0",
+  "description": "Servidor Node simples para servir o projeto localmente por qualquer IP",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js"
+  },
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.18.2"
+  }
+}
